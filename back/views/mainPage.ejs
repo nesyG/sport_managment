@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <h1>Welcome user</h1> 
+    <form action="/classes" method="get">
+     <div>
+      <select name="sport1">
+        <% for(let i=0; i<sport.length; i++){ %>
+          <option id="<%=sport[i].sport%>"  value="<%=sport[i].sport%>"><%=sport[i].sport%></option>
+          
+          <% } %>
+        </select>
+        <select name="sport2">
+          <% for(let i=0; i<sport.length; i++){ %>
+            <option id="<%=sport[i].sport%>"  value="<%=sport[i].sport%>"><%=sport[i].sport%></option>
+            
+            <% } %>
+          </select>
+      </div>
+      <label for="ageGroup">Age Group</label>
+      <select name="ageGroup" id="ageGroup">
+         <% for (let key in sport[0]) { %>
+         <% if(key == 'children' || key == 'youth' || key == 'youngAdults' || key== 'adults'){ %>
+        <option value="<%=key%>"><%=key%></option>
+        <% }} %>
+      </select>
+
+      <button type="submit">Search</button>
+    </form>
+    <p><strong>Logged in as: <%=user.firstName%> <%=user.lastName%></strong></p>
+    <a href="/logout">Logout</a>
+  </body>
+</html>
