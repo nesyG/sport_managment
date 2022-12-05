@@ -18,7 +18,7 @@ export const loginController = {
         validationErrors.push({ msg: "Please enter a valid email address." });
       }
 
-      if (!validator.isLength(req.body.password, { min: 8 })){
+      if (!validator.isLength(req.body.password, { min: 8 })) {
         validationErrors.push({
           msg: "Password must be at least 8 characters long",
         });
@@ -40,8 +40,8 @@ export const loginController = {
       //nodemailer gmail verification
 
       // 1. Function to create randomized str
-      const randomizeStr = () => {
-        const strLength = 10;
+      const randomizeStr = (): string => {
+        const strLength: number = 10;
         let randomStr = "";
         for (let i = 0; i <= 10; i++) {
           const char = Math.floor(Math.random() * 10 + 1);
@@ -52,9 +52,8 @@ export const loginController = {
 
       const uniqueString: string = randomizeStr();
 
-
       // 1.5 Save user with registration email and uniqueString
-      newUser.uniqueString = uniqueString
+      newUser.uniqueString = uniqueString;
       const savedUser = await newUser.save();
 
       // 2. Create nodemailer function for sending email
@@ -68,7 +67,7 @@ export const loginController = {
         });
 
         // 3. Define sending options
-        const mailOptions = {
+        const mailOptions: object = {
           from: "Sport Arena Managment <howyesno040@gmail.com>",
           to: email,
           subject: "Email confirmation",
@@ -80,7 +79,6 @@ export const loginController = {
 
       sendMail(newUser.email, uniqueString);
 
-      // (user: any) => res.json({ token: user.generateJWT(), user: savedUser });
       res.status(200).json({
         savedUser,
         message: `User created, verification email sent to ${newUser.email}`,
@@ -93,7 +91,7 @@ export const loginController = {
   verifyEmail: async (req: Request, res: Response) => {
     try {
       //Find user by generated unique string
-      const uniqueString = req.params.uniqueString;
+      const uniqueString: string = req.params.uniqueString;
       const user = await User.findOne({ uniqueString: uniqueString });
 
       if (!user) {
@@ -103,15 +101,13 @@ export const loginController = {
       //If not admin, save and verify user as regular user
       user!.isVerified = true;
       await user!.save();
-      res.status(200).json({message: "Account verified."});
+      res.status(200).json({ message: "Account verified." });
     } catch (err) {
       console.log(err);
     }
   },
 
-  postLogin: async (req: Request, res: Response, next: any) => {
-    //Namjestiti da pogleda ako mail tj korisnik postoji u bazi
-
+  postLogin: async (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate(
       "local",
       { session: false },

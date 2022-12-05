@@ -6,7 +6,7 @@ export const mockController = {
     mockData: async (req: Request, res: Response) => {
         try {
             if (req.params.type == "create") {
-                const sportsList = ['Boxing', 'Basketball', 'Cycling', 'Baseball', 'Football', 'Fitness', 'Golf', 'Running', 'Swimming', 'Tennis', 'Triathlon', 'Volleyball']
+                const sportsList: Array<string> = ['Boxing', 'Basketball', 'Cycling', 'Baseball', 'Football', 'Fitness', 'Golf', 'Running', 'Swimming', 'Tennis', 'Triathlon', 'Volleyball']
                 for (let sportName in sportsList) {
                     const sportDocument = new Sport({
                         sport: sportsList[sportName],
@@ -33,7 +33,7 @@ export const mockController = {
                     })
                     sportDocument.save()
                 }
-                const adminUser = {
+                const adminUser: object = {
                     "firstName": "admin",
                     "lastName": "admin",
                     "email": "iness.gvoic@gmail.com",
@@ -44,7 +44,7 @@ export const mockController = {
                     "isVerified": true,
                     "isAdmin": true
                 }
-                const basicUser = {
+                const basicUser: object = {
                     "firstName": "Ines",
                     "lastName": "Gvoic",
                     "email": "igvoic.work@gmail.com",

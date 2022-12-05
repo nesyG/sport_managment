@@ -12,7 +12,7 @@ const loginRoutes = Router();
    *    summary: Register new user
    *    requestBody:
    *     required: true
-   *     description: Register new user 
+   *     description: Register new user (choose from one of the four case sensitive ageGroups offered:"children","youth","youngAdults","adults")
    *     content:
    *      application/json:
    *       schema:
@@ -35,7 +35,7 @@ const loginRoutes = Router();
    *          example: example123
    *         ageGroup:
    *          type: string
-   *          example: children, youth youngAdults or adults 
+   *          example: children
    *    responses:
    *     200:
    *      description: Success
@@ -46,7 +46,7 @@ loginRoutes.post("/register", loginController.postRegister);
 
 /**
    * @openapi
-   * '/api/verify/{uniqueStringe}':
+   * '/api/verify/{uniqueString}':
    *  get:
    *     tags:
    *     - Login
@@ -70,7 +70,7 @@ loginRoutes.get("/verify/:uniqueString", loginController.verifyEmail);
    *  post:
    *    tags:
    *    - Login
-   *    summary: Login user or admin
+   *    summary: Login for user or admin
    *    requestBody:
    *     required: true
    *     description: Login with your email and password

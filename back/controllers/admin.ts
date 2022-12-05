@@ -16,7 +16,7 @@ export const adminController = {
 
   getUser: async (req: Request, res: Response) => {
     try {
-      const userId = req.params.id;
+      const userId: string = req.params.id;
       const response = await User.findOne({ _id: userId }).lean();
       res.status(200).json(response);
     } catch (err) {
@@ -29,15 +29,15 @@ export const adminController = {
       const user = await User.find().lean();
       res.status(200).json(user);
     } catch (err) {
-      res.status(401)
+      res.status(401);
       console.log(err);
     }
   },
 
   updateUser: async (req: Request, res: Response) => {
     try {
-      const filter = { _id: req.params.id };
-      const update = req.body;
+      const filter: object = { _id: req.params.id };
+      const update: object = req.body;
       const response = await User.findOneAndUpdate(filter, update, {
         new: true,
       });
@@ -49,17 +49,17 @@ export const adminController = {
 
   deleteUser: async (req: Request, res: Response) => {
     try {
-      const userId = req.params.id;
+      const userId: string = req.params.id;
       const id = ObjectId(userId);
 
       //Find user to delete
       const user = await User.findOne({ _id: userId }).lean();
 
       //Filter sports classes that user is enrolled into and remove him from those classes
-      const userAgeClass = user!.ageGroup + ".class_users";
-      const userSport1 = user!.sport1;
-      const userSport2 = user!.sport2;
-      const filter = {
+      const userAgeClass: string = user!.ageGroup + ".class_users";
+      const userSport1: string = user!.sport1;
+      const userSport2: string = user!.sport2;
+      const filter: object = {
         $and: [
           {
             $or: [{ sport: userSport1 }, { sport: userSport2 }],
@@ -67,7 +67,7 @@ export const adminController = {
           { userAgeClass: { $in: [id] } },
         ],
       };
-      const update = { $pull: { [userAgeClass]: userId } };
+      const update: object = { $pull: { [userAgeClass]: userId } };
 
       const enrolledSports = await Sport.updateMany(filter, update);
 
@@ -99,13 +99,17 @@ export const adminController = {
 
   updateSportClass: async (req: Request, res: Response) => {
     try {
-      const newSlassSchedule = new ClassTime(req.body)
+      const newSlassSchedule = new ClassTime(req.body);
       const { sport, ageGroup, classSchedule } = req.query;
 
-      const filter = { sport: sport };
-      const update = { $set: { [ageGroup + "." + classSchedule]: newSlassSchedule } };
+      const filter: object = { sport: sport };
+      const update: object = {
+        $set: { [ageGroup + "." + classSchedule]: newSlassSchedule },
+      };
 
-      const response = await Sport.findOneAndUpdate(filter, update, { new: true }).lean();
+      const response = await Sport.findOneAndUpdate(filter, update, {
+        new: true,
+      }).lean();
       res.status(200).json(response);
     } catch (err) {
       res.status(400).json(err);
@@ -114,23 +118,24 @@ export const adminController = {
 
   getFeedback: async (req: Request, res: Response) => {
     try {
-      const filter = { sport: req.query.sport }
+      const filter: object = { sport: req.query.sport };
       const selector: any = {
         reviews: 1,
-        sport: 1
+        sport: 1,
       };
-      const response = await Sport.find(filter, selector).lean()
-      const reviews = response[0]!.reviews
-      let sum = 0;
+      const response = await Sport.find(filter, selector).lean();
+      const reviews: Array<any> = response[0]!.reviews;
+      let sum: number = 0;
       for (let feedback in reviews) {
-        sum += reviews[feedback].grade
+        sum += reviews[feedback].grade;
       }
-      const avgGrade = sum / reviews.length
-      return res.status(200).json({
-        response, avgGrade
-      })
+      const avgGrade: number = sum / reviews.length;
+      res.status(200).json({
+        response,
+        avgGrade,
+      });
     } catch (err) {
       console.log(err);
     }
-  }
+  },
 };

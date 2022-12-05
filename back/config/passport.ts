@@ -1,5 +1,5 @@
 import { Strategy as LocalStrategy } from "passport-local";
-import users from "../models/users";
+import User from "../models/users";
 
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -7,13 +7,14 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 module.exports = function (passport: any) {
   passport.use(
     new LocalStrategy({ usernameField: "email" }, function (
-      email: any,
-      password: any,
+      email: string,
+      password: string,
       done: any
     ) {
-      users.findOne(
+      User.findOne(
         { email: email.toLowerCase() },
-        function (err: any, user: any) {
+        function (err: Error, user: any) {
+
           if (err) {
             return done(err);
           }
@@ -25,7 +26,7 @@ module.exports = function (passport: any) {
               msg: "Your account was registered using a sign-in provider. To enable password login, sign in using a provider, and then set a password under your user profile.",
             });
           }
-          user.comparePassword(password, function (err: any, isMatch: any) {
+          user.comparePassword(password, function (err: Error, isMatch: any) {
             if (err) {
               return done(err);
             }
@@ -39,7 +40,7 @@ module.exports = function (passport: any) {
     })
   );
 
-  const opts = {
+  const opts: object = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET,
   };
@@ -48,7 +49,7 @@ module.exports = function (passport: any) {
     new JwtStrategy(opts, async (jwt_payload: any, done: any) => {
       try {
         console.log(jwt_payload.id);
-        const findUser = await users.findById(jwt_payload.id);
+        const findUser = await User.findById(jwt_payload.id);
         if (findUser) {
           return done(null, findUser);
         }

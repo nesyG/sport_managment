@@ -3,8 +3,8 @@ import User from "../models/users";
 
 const middlewareFunctions = {
   verifyAdmin: async (req: any, res: any, next: any) => {
-    const headers = req.headers["authorization"];
-    const token = headers.split(" ")[1];
+    const headers: string = req.headers["authorization"];
+    const token: string = headers.split(" ")[1];
 
     if (token == null) return res.sendStatus(401);
 
@@ -18,12 +18,12 @@ const middlewareFunctions = {
     }
   },
   verifyUser: (req: any, res: any, next: any) => {
-    const headers = req.headers["authorization"];
-    const token = headers.split(" ")[1];
+    const headers: string = req.headers["authorization"];
+    const token: string = headers.split(" ")[1];
 
     if (token == null) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.JWT_SECRET, (err: any, user: any) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err: Error, user: any) => {
       if (err) return res.sendStatus(403);
       req.user = user;
       next();

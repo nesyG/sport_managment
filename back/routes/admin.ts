@@ -38,7 +38,7 @@ adminRoutes.post("/users", adminController.createUser);
   *    parameters:
   *     - name: id
   *       in: path
-  *       description: MongoDB _id of the user
+  *       description: Takes in MongoDB _id of the user
   *       required: true
   *    responses:
   *      200:
@@ -75,10 +75,10 @@ adminRoutes.get("/users", adminController.getAllUsers);
    *     - in: path
    *       name: id
    *       type: string
-   *       description: Takes in MongoDb _id
+   *       description: Takes in MongoDB _id of the user
    *    requestBody:
    *      required: true
-   *      description: Create new class schedule.
+   *      description: Update the user data
    *      content:
    *        application/json:
    *         schema:
@@ -101,7 +101,7 @@ adminRoutes.put("/users/:id", adminController.updateUser);
   *    parameters:
   *     - name: id
   *       in: path
-  *       description: Mongo _id of the user
+  *       description: Takes in MongoDB _id of the user
   *       required: true
   *    responses:
   *      200:
@@ -122,7 +122,7 @@ adminRoutes.delete("/users/:id", adminController.deleteUser);
    *     - in: query
    *       name: sport
    *       type: string
-   *       description: Takes in a sport name
+   *       description: Takes in case sensitive sport name
    *    responses:
    *      200:
    *        description: Success
@@ -146,12 +146,12 @@ adminRoutes.get("/feedback", adminController.getFeedback);
    *       name: sport
    *       type: string
    *       example: Football
-   *       description: Takes sport name for sport admin wants to update
+   *       description: Takes in case sensitive sport name 
    *     - in: query
    *       name: ageGroup
    *       type: string
    *       example: children
-   *       description: Takes in one of the four age groups ("children", "youth", "youngAdults", "adults")
+   *       description: Takes in one of the four case sensitive age groups ("children", "youth", "youngAdults", "adults")
    *     - in: query
    *       name: classSchedule
    *       type: string

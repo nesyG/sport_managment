@@ -16,11 +16,11 @@ const mainRoutes = Router();
    *      - in: query
    *        name: sports
    *        type: string
-   *        description: Name of the sport
+   *        description: Takes in one or multiple comma seperated, case sensitive sport names
    *      - in: query
-   *        name: ageGroup
+   *        name: ageGroups
    *        type: string
-   *        description: Age group ("children")
+   *        description: Takes in one of the four case sensitive age groups ("children", "youth", "youngAdults", "adults")
    *     responses:
    *       200:
    *         description: Success
@@ -40,7 +40,7 @@ mainRoutes.get("/classes", mainController.getSelectedSports);
    *    - in: path
    *      name: sport
    *      type: string
-   *      description: Takes in name of the sport
+   *      description: Takes in case sensitive name of the sport
    *   responses:
    *    200:
    *     description: Success
@@ -60,7 +60,7 @@ mainRoutes.put("/enroll/:sport", mainController.enroll);
    *    - in: path
    *      name: sport
    *      type: string
-   *      description: Takes in name of the sport
+   *      description: Takes in case sensitive name of the sport
    *   responses:
    *    200:
    *     description: Success
@@ -71,24 +71,30 @@ mainRoutes.put("/unenroll/:sport", mainController.unenroll);
 
 /**
    * @openapi
-   * '/feedback':
+   * '/mainPage/feedback/{sport}':
    *  put:
    *   tags:
    *   - User
    *   summary: Leave comment and grade for specific sport
    *   parameters:
-   *    - in: query
-   *      name: id
+   *    - in: path
+   *      name: sport
    *      type: string
-   *      description: Takes in users id
-   *    - in: query
-   *      name: comment
-   *      type: string
-   *      description: Takes in users comment
-   *    - in: query
-   *      name: grade
-   *      type: number
-   *      description: Takes in users grade
+   *      description: Takes in case sensitive sport name for which the user wants to leave a comment
+   *   requestBody:
+   *    required: true
+   *    description: Comment and grade sport class
+   *    content:
+   *     application/json:
+   *      schema:
+   *       type: object
+   *       properties:
+   *        comment:
+   *         type: string
+   *         example: Great class!
+   *        grade:
+   *         type: number
+   *         example: 4
    *   responses:
    *    200:
    *     description: Success

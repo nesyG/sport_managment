@@ -32,9 +32,4 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new CopyPlugin({
-      patterns: [{ from: 'views', to: 'views' }],
-    }),
-  ],
 }

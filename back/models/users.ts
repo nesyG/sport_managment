@@ -13,8 +13,6 @@ const jwt = require("jsonwebtoken");
  *       - lastName
  *       - email
  *       - password
- *       - sport1
- *       - sport2
  *       - ageGroup
  *       - isVerified
  *      properties:
@@ -29,19 +27,13 @@ const jwt = require("jsonwebtoken");
  *        default: jane.doe@gmail.com
  *       password:
  *        type: string,
- *        default: something123 (min 8 letters)
+ *        default: something123
  *       ageGroup:
  *        type: string,
  *        default: children
  *       isVerified:
  *        type: boolean,
  *        default: false
- *       sport1:
- *        type: string,
- *        default: ""
- *       sport2:
- *        type: string,
- *        default: ""
  */
 
 export interface IUsers {

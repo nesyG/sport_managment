@@ -35,45 +35,35 @@ export const mainController = {
       if (!req.headers.authorization) {
         return res.status(400).json({ message: "Bad token" })
       }
-      const userId = getUserId(req.headers.authorization);
-      const sportName = req.params.sport;
+      const userId: string = getUserId(req.headers.authorization);
+      const sportName: string = req.params.sport;
 
       //Fetch user and check if he is enrolled in selected sport, check if both of his sports classes are full, if true return, else continue
       const user = await User.findOne({ _id: userId }).lean();
       if (user!.sport1 != "" && user!.sport2 != "") {
         return res.status(400).json({ message: "You are already enrolled in two sports classes!" });
-      } else if (user!.sport1 === sportName || user!.sport2 === sportName) {
+      } 
+
+      if (user!.sport1 === sportName || user!.sport2 === sportName) {
         return res.status(400).json({ message: "You are already enrolled in this sport!" });
-      } else {
-        console.log('OK');
-      }
+      } 
 
       //Fetch users ageGroup
       let userAgeGroup: string = user!.ageGroup;
 
       //Check age specific sports class to see if there is space to enroll the user, if sports class is full return error
-      const users_array = userAgeGroup + ".class_users";
+      const usersArray: string = userAgeGroup + ".class_users";
       const selectedSport = await Sport.findOne({ sport: sportName }).lean();
 
-      const n_of_class_users: number = selectedSport![userAgeGroup].class_users.length;
-
-      // if (userAgeGroup == 'children') {
-      //   n_of_class_users = selectedSport![userAgeGroup].class_users.length;
-      // } else if (userAgeGroup == 'youth') {
-      //   n_of_class_users = selectedSport![userAgeGroup].class_users.length;
-      // } else if (userAgeGroup == 'youngAdults') {
-      //   n_of_class_users = selectedSport![userAgeGroup].class_users.length;
-      // } else if (userAgeGroup == 'adults') {
-      //   n_of_class_users = selectedSport![userAgeGroup].class_users.length;
-      // }
+      const nOfClassUsers: number = selectedSport![userAgeGroup].class_users.length;
 
       let updatedSport;
-      if (n_of_class_users >= 10) {
+      if (nOfClassUsers >= 10) {
         return res.status(400).json({ message: 'class already full' })
       }
       updatedSport = await Sport.findOneAndUpdate(
         { sport: sportName },
-        { $push: { [users_array]: userId } },
+        { $push: { [usersArray]: userId } },
         { new: true }
       ).lean();
 
@@ -98,14 +88,14 @@ export const mainController = {
       if (!req.headers.authorization) {
         return res.status(400).json({ message: "Bad token" })
       }
-      const userId = getUserId(req.headers.authorization);
+      const userId: string = getUserId(req.headers.authorization);
 
       // Find user, match selected sport with users sport1 or sport2 property and set it to empty strings
-      const userSport = req.params.sport;
-      const filter = { _id: userId }
+      const userSport: string = req.params.sport;
+      const filter: object = { _id: userId }
 
       const user = await User.findOne({ _id: userId }).lean();
-      let update: Object;
+      let update: object;
       if (user!.sport1 == userSport) {
         update = { sport1: '' }
       }
@@ -120,7 +110,7 @@ export const mainController = {
 
       // Use users ageGroup, find selected sport and unenroll user from age specific sports class
       const userAge: string = user!.ageGroup;
-      const pullUser = `${userAge}.class_users`;
+      const pullUser: string = `${userAge}.class_users`;
       const updatedSport = await Sport.findOneAndUpdate(
         { sport: userSport },
         { $pull: { [pullUser]: userId } },
@@ -140,12 +130,12 @@ export const mainController = {
         return res.status(400).json({ message: "Bad token" })
       }
 
-      const userFeedback = Reviews(req.body);
+      const userFeedback = new Reviews(req.body);
 
-      const userId = getUserId(req.headers.authorization);
+      const userId: string = getUserId(req.headers.authorization);
       userFeedback.userid = userId
 
-      const sport = req.params.sport;
+      const sport: string = req.params.sport;
       const updatedSportFeedback = await Sport.findOneAndUpdate(
         { sport: sport },
         { $push: { reviews: userFeedback } },
