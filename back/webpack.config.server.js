@@ -1,6 +1,6 @@
 const nodeExternals = require('webpack-node-externals')
 const path = require('path')
-const CopyPlugin = require('copy-webpack-plugin')
+
 
 module.exports = {
   name: 'back',
