@@ -7,8 +7,13 @@ import mainRoutes from "./routes/main";
 import passport from "passport";
 import middlewareFunctions from "./middleware/auth";
 import swaggerDocs from "./swagger";
+const cors = require('cors')
+
+
 
 const app = express();
+
+app.use(cors())
 
 //Extend Request interface for user
 declare module "express" {
