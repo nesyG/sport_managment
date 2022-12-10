@@ -1,4 +1,18 @@
-# Sports Management page
+# Sports Management app
+
+## `Description`
+Goal of this project is to make a full-stack web app that is used for managing a sports centre and it's registered users.
+
+Client-side:
+- Typescript
+- React
+
+Server-side:
+- MongoDB
+- RESTful API (Express)
+- Typescript
+- Node
+- Passport JWT
 
 ## `Docker`
 
