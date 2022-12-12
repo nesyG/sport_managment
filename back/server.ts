@@ -1,19 +1,18 @@
 import express from "express";
 import { connect } from "mongoose";
-import loginRoutes from "./routes/login";
-import adminRoutes from "./routes/admin";
+import authRoutes from "./routes/auth";
+import usersRoutes from "./routes/users";
 import mockRoutes from "./routes/mock";
-import mainRoutes from "./routes/main";
+import sportsRoutes from "./routes/sports";
 import passport from "passport";
 import middlewareFunctions from "./middleware/auth";
 import swaggerDocs from "./swagger";
-const cors = require('cors')
-
-
+import classesRoutes from "./routes/classes";
+const cors = require("cors");
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 
 //Extend Request interface for user
 declare module "express" {
@@ -56,7 +55,8 @@ app.listen(process.env.PORT, () => {
 });
 
 //Routes for which the server is listening
-app.use("/api", loginRoutes);
-app.use("/mainPage", middlewareFunctions.verifyUser, mainRoutes);
-app.use("/admin", middlewareFunctions.verifyAdmin, adminRoutes);
+app.use("/", authRoutes);
+app.use("/sports", sportsRoutes);
+app.use("/classes", classesRoutes);
+app.use("/users", middlewareFunctions.verifyAdmin, usersRoutes);
 app.use("/mock", mockRoutes); //Used only locally for quick db population and clearing, when needed

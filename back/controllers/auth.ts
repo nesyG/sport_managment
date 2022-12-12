@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 //Use .env file in config folder
 require("dotenv").config({ path: "../config/.env" });
 
-export const loginController = {
+export const authController = {
   postRegister: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const newUser = new User(req.body);

@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { loginController } from "../controllers/login";
+import { authController } from "../controllers/auth";
 
-const loginRoutes = Router();
+const authRoutes = Router();
 
 /**
    * @openapi
-   * '/api/register':
+   * '/register':
    *  post:
    *    tags:
-   *    - Login
+   *    - Auth
    *    summary: Register new user
    *    requestBody:
    *     required: true
@@ -42,14 +42,14 @@ const loginRoutes = Router();
    *     400:
    *      description: Bad request
    */
-loginRoutes.post("/register", loginController.postRegister);
+ authRoutes.post("/register", authController.postRegister);
 
 /**
    * @openapi
-   * '/api/verify/{uniqueString}':
+   * '/register/verify/{uniqueString}':
    *  get:
    *     tags:
-   *     - Login
+   *     - Auth
    *     summary: Verifies the new user using unique string
    *     parameters:
    *      - in: path
@@ -62,14 +62,14 @@ loginRoutes.post("/register", loginController.postRegister);
    *       400:
    *         description: Bad request
    */
-loginRoutes.get("/verify/:uniqueString", loginController.verifyEmail);
+ authRoutes.get("/register/verify/:uniqueString", authController.verifyEmail);
 
 /**
    * @openapi
-   * '/api/login':
+   * '/login':
    *  post:
    *    tags:
-   *    - Login
+   *    - Auth
    *    summary: Login for user or admin
    *    requestBody:
    *     required: true
@@ -91,6 +91,6 @@ loginRoutes.get("/verify/:uniqueString", loginController.verifyEmail);
    *     400:
    *      description: Bad request
    */
-loginRoutes.post("/login", loginController.postLogin);
+ authRoutes.post("/login", authController.postLogin);
 
-export default loginRoutes;
+export default authRoutes;
