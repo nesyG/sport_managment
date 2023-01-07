@@ -1,9 +1,13 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useEffect, useContext } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./Login.css";
-import { login } from "../services/auth.service";
+import { IncomingMessage } from "http";
+import { Routes, Route, Link } from "react-router-dom";
+
+import axios from "axios";
+import { JWTContext } from "../App";
 
 type Props = {};
 
@@ -29,37 +33,34 @@ const Login: FunctionComponent<Props> = () => {
     password: Yup.string().required("This field is required!"),
   });
 
-  const handleLogin = (formValue: { email: string; password: string }) => {
-    const { email, password } = formValue;
-
-    setMessage("");
-    setLoading(true);
-
-    login(email, password).then(
-      () => {
-        navigate("/classes");
-        window.location.reload();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setLoading(false);
-        setMessage(resMessage);
-      }
-    );
-  };
-
   function toggleLoginChange() {
     setOnLoginHover(!onLoginHover);
   }
+  //post request on login
+  const [formValue, setFormValue] = useState({ email: "", password: "" });
+
+  const handleInput = (e: any) => {
+    const { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value });
+  };
+
+  const API_URL = "http://localhost:3500/";
+
+  const handlePost = (e: any) => {
+    const jwt = useContext(JWTContext)
+    e.preventDefault();
+    console.log(formValue);
+    let res = axios({
+      method: "POST",
+      data: formValue,
+      url: "http://localhost:3500/login",
+    }).then((res) => console.log(res.data))
+    
+    navigate("/classes");
+  };
 
   return (
-    <>
+    <div>
       <h1 className="welcome-container">Welcome to Sports Arena</h1>
       <div className="login-container">
         <h3
@@ -71,51 +72,74 @@ const Login: FunctionComponent<Props> = () => {
           Login
         </h3>
         {isLoginOpen && (
-           <Formik
-           initialValues={initialValues}
-           validationSchema={validationSchema}
-           onSubmit={handleLogin}
-         >
-           <Form>
-             <div className="login-form-container">
-               <label htmlFor="email">email</label>
-               <Field name="email" type="email" className="form-control" placeholder="example123@gmail.com" />
-               <ErrorMessage
-                 name="email"
-                 component="div"
-                
-               />
-             </div>
- 
-             <div className="login-form-container ">
-               <label htmlFor="password">Password</label>
-               <Field name="password" type="password" className="form-control" />
-               <ErrorMessage
-                 name="password"
-                 component="div"
-               
-               />
-             </div>
- 
-             <div className="form-group">
-               <button type="submit" className="btn btn-secondary btn-block" disabled={loading}>
-                 <span>Login</span>
-               </button>
-             </div>
- 
-             {message && (
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handlePost}
+          >
+            <Form>
+              <div className="login-form-container">
+                <label htmlFor="email">email</label>
+                <Field
+                  name="email"
+                  type="email"
+                  className="form-control"
+                  value={formValue.email}
+                  onChange={handleInput}
+                  placeholder="example123@gmail.com"
+                />
+              </div>
+
+              <div className="login-form-container ">
+                <label htmlFor="password">Password</label>
+                <Field
+                  name="password"
+                  type="password"
+                  className="form-control"
+                  value={formValue.password}
+                  onChange={handleInput}
+                />
+              </div>
+
+              <div className="form-group">
+                <button
+                  type="submit"
+                  className="btn btn-secondary btn-block"
+                  onClick={handlePost}
+                >
+                  <span>Login</span>
+                </button>
+              </div>
+
+              {/* {message && (
                <div className="form-group">
                  <div className="alert alert-danger" role="alert">
                    {message}
                  </div>
                </div>
-             )}
-           </Form>
-         </Formik>
+             )} */}
+            </Form>
+          </Formik>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
 export default Login;
+
+// export const JWTContext = createContext(null);
+
+// // In your root component:
+// <JWTContext.Provider value={token}>
+//   {/* Your app goes here */}
+// </JWTContext.Provider>
+
+// // In a child component:
+// import { useContext } from 'react';
+// import { JWTContext } from './JWTContext';
+
+// function ChildComponent() {
+//   const jwt = useContext(JWTContext);
+//   // Use the JWT here
+// }

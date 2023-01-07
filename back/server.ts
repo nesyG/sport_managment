@@ -8,11 +8,14 @@ import passport from "passport";
 import middlewareFunctions from "./middleware/auth";
 import swaggerDocs from "./swagger";
 import classesRoutes from "./routes/classes";
-const cors = require("cors");
+import cors from "cors"
 
 const app = express();
+app.use(cors({
+  origin: "http://localhost:9000",
+  credentials: true
+}))
 
-app.use(cors());
 
 //Extend Request interface for user
 declare module "express" {

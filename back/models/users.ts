@@ -116,7 +116,7 @@ UsersSchema.methods.generateJWT = function () {
     firstName: this.firstName,
     lastName: this.lastName,
   };
-
+  console.log(payload)
   return jwt.sign(payload, process.env.JWT_SECRET);
 };
 
