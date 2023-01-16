@@ -1,4 +1,5 @@
 const { resolve } = require("path");
+const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
@@ -10,8 +11,15 @@ const config = {
     index: "./src/index.tsx"
   },
   output: {
-    path: resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+    publicPath: "/"
+  },
+  devServer: {
+    port: 9000,
+    contentBase: __dirname + "/public/",
+    historyApiFallback: { index: "/", disableDotRule: true },
+   
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"]
@@ -28,7 +36,7 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(eot|ttf|svg|woff|woff2|png|jpe?g|gif)$/,
+        test: /\.(eot|ttf|svg|woff|woff2|png|jp(e*)g|gif)$/,
         use: [
           {
             loader: 'file-loader',
@@ -58,6 +66,9 @@ if (isProd) {
 } else {
   config.devServer = {
     port: 9000,
+    contentBase: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    historyApiFallback: { index: "/", disableDotRule: true },
     open: true,
     hot: true,
     compress: true,

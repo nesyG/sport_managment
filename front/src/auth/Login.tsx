@@ -1,17 +1,19 @@
-import React, { FunctionComponent, useState, useEffect, useContext } from "react";
+import React, { FunctionComponent, useState, useEffect, useContext, PropsWithChildren } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./Login.css";
 import { IncomingMessage } from "http";
 import { Routes, Route, Link } from "react-router-dom";
-
 import axios from "axios";
-import { JWTContext } from "../App";
+import App from "../App";
+// type CustomProp = {
+// onLogin: Function 
+// }
+type Props = {}
 
-type Props = {};
 
-const Login: FunctionComponent<Props> = () => {
+const Login: React.FC<Props> = ({ }) => {
   let navigate: NavigateFunction = useNavigate();
 
   const [onLoginHover, setOnLoginHover] = useState<boolean>(false);
@@ -38,6 +40,7 @@ const Login: FunctionComponent<Props> = () => {
   }
   //post request on login
   const [formValue, setFormValue] = useState({ email: "", password: "" });
+  
 
   const handleInput = (e: any) => {
     const { name, value } = e.target;
@@ -46,8 +49,7 @@ const Login: FunctionComponent<Props> = () => {
 
   const API_URL = "http://localhost:3500/";
 
-  const handlePost = (e: any) => {
-    const jwt = useContext(JWTContext)
+   const handlePost = (e: any) => {
     e.preventDefault();
     console.log(formValue);
     let res = axios({
@@ -55,7 +57,6 @@ const Login: FunctionComponent<Props> = () => {
       data: formValue,
       url: "http://localhost:3500/login",
     }).then((res) => console.log(res.data))
-    
     navigate("/classes");
   };
 

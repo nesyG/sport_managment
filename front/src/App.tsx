@@ -1,25 +1,49 @@
 import React, { createContext, FunctionComponent, useEffect, useState} from "react";
+import handlePost from "./auth/Login";
 import Login from "./auth/Login";
 import { Routes, Route, Link } from "react-router-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import Header from "./user/Header";
 import Classes from "./user/Classes";
+import Schedule from "./user/Schedule";
 
-export const JWTContext = createContext(null)
 
-const App: FunctionComponent = () => {
-const [jwt, setJwt] = useState(null)
+// export interface State {
+//   bla: any
+// }
+
+// type Props1 = {
+//   setData: React.Dispatch<React.SetStateAction<any>>;
+// };
+
+// type Props2 = {
+//   data: React.Dispatch<React.SetStateAction<any>>;
+// };
+  
+const App: React.FC = () => {
+  const [data,setData] = useState<[]>([])
+  console.log(data)
+  // const [token, setToken] = React.useState(null);
+
+  // const handleLogin = async () => {
+  //   const token = await handlePost();
+
+  //   setToken(token);
+  // };
 
   return (
-    <div className="mb-3">
-      <JWTContext.Provider value={jwt}>
-        <Login />
+    <div>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/classes" element={<Classes />} />
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/" element={<Classes setData={setData}/>} />
+        <Route path="/schedule" element={<Schedule data={data}/>} />
       </Routes>
-      </JWTContext.Provider>
+    
+    
     </div>
   );
 };
 
 export default App;
+
+ 

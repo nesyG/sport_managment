@@ -1,0 +1,39 @@
+
+.main-container {
+    display: flex;
+}
+
+.nav-container {
+    margin-top: 2rem;
+    display: flex;
+    align-items: baseline;
+  
+}
+
+.ul-container {
+    display: flex;
+    list-style: none;
+}
+
+.link-container {
+    border: 1px solid rgb(10, 10, 14);
+    border-radius: 1rem;
+    font-weight: 500;
+    color: rgb(10, 10, 14);
+    background-color: rgb(211, 211, 211);
+    text-decoration: none;
+    padding: .7rem 1.5rem;
+}
+
+.one {
+    margin-left: 85rem;
+    margin-right: 1rem;
+}
+
+.title-container {
+    font-weight: 700;
+    background: linear-gradient(to right, rgb(8, 8, 31),rgb(168, 41, 41));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
