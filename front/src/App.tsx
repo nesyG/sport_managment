@@ -21,12 +21,9 @@ import Schedule from "./user/Schedule";
 // };
   
 const App: React.FC = () => {
-  const [data,setData] = useState<[]>([])
+  const [data,setData] = useState<[] | null>(null)
   const [getToken, setGetToken] = useState<string>('')
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<string[]>([])
-
-
-
 
   function setToken (getToken:any) {
     setGetToken(getToken)
@@ -37,7 +34,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Login setToken = {setToken}/>}/>
         <Route path="/classes" element={<Classes selectedAgeGroup={selectedAgeGroup} setSelectedAgeGroup={setSelectedAgeGroup} setData={setData} getToken={getToken}/>} />
-        <Route path="/schedule" element={<Schedule data={data} selectedAgeGroup={selectedAgeGroup}/>} />
+
       </Routes>
     </div>
   );

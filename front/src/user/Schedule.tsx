@@ -7,9 +7,11 @@ import './Schedule.css'
 
 
 const Schedule = ({ data, selectedAgeGroup }: any) => {
+
+    
     // Array holding all the classes, sorted by day of the week
     let allClasses: any = { Monday: [], Tuesday: [], Wedensday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] }
-
+    
     for (let classes of data) {
         for (let ageGroup in selectedAgeGroup) {
             // We don't need class_users here
@@ -34,21 +36,10 @@ const Schedule = ({ data, selectedAgeGroup }: any) => {
 
     return (
         <div>
-            <h1>Weekly schedules</h1>
-            <div>{ }</div>
+           {}
+            
         </div>
     )
 }
 
 export default Schedule
-
-{/* <div>{weekDays.forEach(x => {
-                                const asArray = Object.entries(item);
-                                let result = asArray.filter((y:any) => {item[ageGroup].t1.day === x})
-                                if (result.length) {
-                                    <h3>{result}</h3>
-                                } else {
-                                    <h3>No data in variable</h3>
-                                }
-                                console.log(result)
-                            })}</div> */}
