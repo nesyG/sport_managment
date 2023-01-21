@@ -51,7 +51,6 @@ const Login = ({setToken}:any) => {
 
    const handlePost = (e: any) => {
     e.preventDefault();
-    console.log(formValue);
     let res = axios({
       method: "POST",
       data: formValue,

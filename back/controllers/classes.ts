@@ -20,7 +20,7 @@ export const classesController = {
     }
 
     try {
-      const sportCLasses = await Sport.find({ sport: sportsList }, selector);
+      const sportCLasses = await Sport.find({ sport: sportsList }, selector).lean();
       if (sportCLasses) {
         return res.status(200).json(sportCLasses);
       }

@@ -23,6 +23,8 @@ import Schedule from "./user/Schedule";
 const App: React.FC = () => {
   const [data,setData] = useState<[]>([])
   const [getToken, setGetToken] = useState<string>('')
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState<string[]>([])
+
 
 
 
@@ -34,8 +36,8 @@ const App: React.FC = () => {
     <div>
       <Routes>
         <Route path="/" element={<Login setToken = {setToken}/>}/>
-        <Route path="/classes" element={<Classes setData={setData} getToken={getToken}/>} />
-        <Route path="/schedule" element={<Schedule data={data}/>} />
+        <Route path="/classes" element={<Classes selectedAgeGroup={selectedAgeGroup} setSelectedAgeGroup={setSelectedAgeGroup} setData={setData} getToken={getToken}/>} />
+        <Route path="/schedule" element={<Schedule data={data} selectedAgeGroup={selectedAgeGroup}/>} />
       </Routes>
     </div>
   );
