@@ -7,13 +7,14 @@ import { IncomingMessage } from "http";
 import { Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
 import App from "../App";
+import { ProgressPlugin } from "webpack";
 // type CustomProp = {
 // onLogin: Function 
 // }
-type Props = {}
 
 
-const Login: React.FC<Props> = ({ }) => {
+
+const Login = ({setToken}:any) => {
   let navigate: NavigateFunction = useNavigate();
 
   const [onLoginHover, setOnLoginHover] = useState<boolean>(false);
@@ -40,7 +41,6 @@ const Login: React.FC<Props> = ({ }) => {
   }
   //post request on login
   const [formValue, setFormValue] = useState({ email: "", password: "" });
-  
 
   const handleInput = (e: any) => {
     const { name, value } = e.target;
@@ -56,8 +56,7 @@ const Login: React.FC<Props> = ({ }) => {
       method: "POST",
       data: formValue,
       url: "http://localhost:3500/login",
-    }).then((res) => console.log(res.data))
-    navigate("/classes");
+    }).then(res => res.data).then(setToken).then(()=> {navigate("/classes")})
   };
 
   return (
@@ -128,19 +127,3 @@ const Login: React.FC<Props> = ({ }) => {
 };
 
 export default Login;
-
-// export const JWTContext = createContext(null);
-
-// // In your root component:
-// <JWTContext.Provider value={token}>
-//   {/* Your app goes here */}
-// </JWTContext.Provider>
-
-// // In a child component:
-// import { useContext } from 'react';
-// import { JWTContext } from './JWTContext';
-
-// function ChildComponent() {
-//   const jwt = useContext(JWTContext);
-//   // Use the JWT here
-// }

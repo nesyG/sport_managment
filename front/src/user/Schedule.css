@@ -1,0 +1,15 @@
+.schedule-container {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid gray;
+    list-style: none;
+}
+
+.weekDay-container {
+    border: 1px solid gray;
+    padding: .5rem 2rem;
+}
+
+.weekDay-div {
+    margin-top: 2rem;
+}

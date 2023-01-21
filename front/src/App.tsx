@@ -22,24 +22,21 @@ import Schedule from "./user/Schedule";
   
 const App: React.FC = () => {
   const [data,setData] = useState<[]>([])
-  console.log(data)
-  // const [token, setToken] = React.useState(null);
+  const [getToken, setGetToken] = useState<string>('')
 
-  // const handleLogin = async () => {
-  //   const token = await handlePost();
 
-  //   setToken(token);
-  // };
+
+  function setToken (getToken:any) {
+    setGetToken(getToken)
+  }
 
   return (
     <div>
       <Routes>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/" element={<Classes setData={setData}/>} />
+        <Route path="/" element={<Login setToken = {setToken}/>}/>
+        <Route path="/classes" element={<Classes setData={setData} getToken={getToken}/>} />
         <Route path="/schedule" element={<Schedule data={data}/>} />
       </Routes>
-    
-    
     </div>
   );
 };

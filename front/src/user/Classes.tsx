@@ -10,7 +10,7 @@ import "./Classes.css"
 //   setData: React.Dispatch<React.SetStateAction<[]>>;
 // };
 
-const Classes = ({setData}: any) => {
+const Classes = ({setData, getToken}:any) => {
   const navigate = useNavigate()
   const sports: Array<string> = ['Football', 'Basketball', 'Cycling', 'Baseball']
   const ageGroup: Array<string> = ['children', 'youth']
@@ -19,7 +19,7 @@ const Classes = ({setData}: any) => {
   let userSelectedSports = selectedSports
   let userSelectedAgeGroup = selectedAgeGroup
   let sportsUrl = `http://localhost:3500/classes?sports=${userSelectedSports}&ageGroups=${selectedAgeGroup}`
-  console.log(sportsUrl)
+  console.log(getToken.token)
   // const [data, setData] = useState([]);
   // const theToken = "token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGNjM2QxZjg4MTk5MTdmYzc4Yzk1ZCIsImVtYWlsIjoiaWd2b2ljLndvcmtAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiSW5lcyIsImxhc3ROYW1lIjoiR3ZvaWMiLCJpYXQiOjE2NzMxMTE1OTZ9.aHGaQNM7LaYXubRBnSZmzx8MRhyo3SWAv5BTV_fJsRw"
   // useEffect(() => {
@@ -41,11 +41,10 @@ const Classes = ({setData}: any) => {
   //     .then(res => res.json())
 function handleClick(name:any) {
  setSelectedSports((prev) => [...prev, name])
- console.log(selectedSports)
 }
 
-function handleAgeClick(name:any) {
-  setSelectedAgeGroup((prev) => [...prev, name])
+function handleAgeClick(age:any) {
+  setSelectedAgeGroup((prev) => [...prev, age])
  }
 
  async function getSelectedSports () {
@@ -54,15 +53,15 @@ function handleAgeClick(name:any) {
     headers:{
       Accept: 'application/json',
                'Content-Type': 'application/json',
-               'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGNjM2QxZjg4MTk5MTdmYzc4Yzk1ZCIsImVtYWlsIjoiaWd2b2ljLndvcmtAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiSW5lcyIsImxhc3ROYW1lIjoiR3ZvaWMiLCJpYXQiOjE2NzM3MTU1MDN9.rVtQJyt8USsgzwSjGToaTNYPykjiQ5d7fsl7jPMWxKU'
+               'Authorization' : `Bearer ${getToken.token}`
        },
   })
-      .then(res => res.json()).then(setData).then(()=> {navigate("/schedule")})
+      .then(res => res.json()).then(setData).then(()=> {navigate("/schedule")}) 
  }
-
   return(
     <div>
       <Header />
+      <p>Hello {getToken.user.firstName}</p>
       <div className="hero-container" style={{ backgroundImage: `url(${sportImg})` }}>
         <p className="sport-text">Welcome to Sport Arena!<br></br>
            Where sport, health and fun combine!<br></br>
