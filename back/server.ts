@@ -16,7 +16,6 @@ app.use(cors({
   credentials: true
 }))
 
-
 //Extend Request interface for user
 declare module "express" {
   export interface Request {
@@ -25,6 +24,7 @@ declare module "express" {
 }
 
 //Use .env file in config folder
+
 require("dotenv").config({ path: "./config/.env" });
 
 // Passport config
@@ -33,6 +33,14 @@ require("./config/passport")(passport);
 //Body Parsing
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// app.get('/*', function(req, res) { // <-- add
+//   res.sendFile(path.join(__dirname, './front/dist/index.html'), function(err) {
+//     if (err) {
+//       res.status(500).send(err)
+//     }
+//   })
+// })
 
 // Passport middleware
 app.use(passport.initialize());

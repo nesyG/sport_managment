@@ -23,7 +23,7 @@ const sportsRoutes = Router();
  *      400:
  *        description: Bad request
  */
-sportsRoutes.get("/", middlewareFunctions.verifyAdmin, sportsController.getSportsAsAdmin);
+sportsRoutes.get("/",  sportsController.getSportsAsAdmin);
 
 sportsRoutes.put("/" ); //add controllers for this routes
 

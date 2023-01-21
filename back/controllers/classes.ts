@@ -5,6 +5,7 @@ import getUserId from "../helpers/controllersHelper";
 
 export const classesController = {
   getSelectedSports: async (req: Request, res: Response) => {
+    
     const sportsList: string[] = (req.query.sports as string).split(",");
     const ageGroupsList: string[] = (req.query.ageGroups as string).split(",");
 

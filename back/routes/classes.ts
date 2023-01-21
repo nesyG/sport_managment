@@ -88,7 +88,7 @@ classesRoutes.put("/:sport", middlewareFunctions.verifyUser, classesController.e
  *     400:
  *      description: Bad request
  */
-classesRoutes.put("/", middlewareFunctions.verifyAdmin, classesController.updateSportClassAsAdmin); 
+classesRoutes.put("/", classesController.updateSportClassAsAdmin); 
 
 /**
  * @openapi
