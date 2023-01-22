@@ -33,7 +33,7 @@ const App: React.FC = () => {
     <div>
       <Routes>
         <Route path="/" element={<Login setToken = {setToken}/>}/>
-        <Route path="/classes" element={<Classes selectedAgeGroup={selectedAgeGroup} setSelectedAgeGroup={setSelectedAgeGroup} setData={setData} getToken={getToken}/>} />
+        <Route path="/classes" element={<Classes setData={setData} getToken={getToken}/>} />
 
       </Routes>
     </div>

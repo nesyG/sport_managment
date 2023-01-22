@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, {
-  FunctionComponent,
-  useContext,
   useState,
   useEffect,
 } from "react";
@@ -11,48 +9,66 @@ import sportImg from "../assets/images/sport1.jpg";
 import "./Classes.css";
 import Schedule from "./Schedule";
 
-const Classes = ({ selectedAgeGroup, setSelectedAgeGroup, getToken }: any) => {
+const Classes = ({  getToken }: any) => {
   const navigate = useNavigate();
+//state for cards color change
+  const [clickedSports, setClickedSports] = useState<boolean>(false)
+
+
+
   const [data, setData] = useState<[]>([]);
   const [sports, setSports] = useState([]);
-  const ageGroup: Array<string> = [
-    "children",
-    "youth",
-    "youngAdults",
-    "adults",
-  ];
+ 
 
   //Get sport names from DB on first render
    const [sportNames, setSportNames] = useState<string[]>([])
-   let test: string[] = []
+  
+   useEffect(()=> {
+    fetch("http://localhost:3500/sports")
+      .then(res => res.json())
+      .then(data => setSportNames(data))
+    }, []) 
 
-    const fetchSports = async () => {
-      const response = await fetch("http://localhost:3500/sports");
-      const newData = await response.json();
-      let getSportNames = newData.map((item: any) => {
-        test.push(item.sport)
-      });
-      setSportNames(test)
-    };
+  //state change for clicked sports
+  const [selectedSports, setSelectedSports] = useState<any>([]);
 
-    fetchSports();
- 
-    console.log(sportNames);
-
-  const [selectedSports, setSelectedSports] = useState<string[]>([]);
-  // const [selectedAgeGroup, setSelectedAgeGroup] = useState<string[]>([])
-
-  let sportsUrl = `http://localhost:3500/classes?sports=${selectedSports}&ageGroups=${selectedAgeGroup}`;
-
- 
   function handleClick(name: any) {
-    setSelectedSports((prev) => [...prev, name]);
-  }
+    if (selectedSports.includes(name) == false) {
+      return setSelectedSports((prev:any)=> [...prev, name])
+    } else if (selectedSports.includes(name)) {
+      setSelectedSports((prev:any)=> {
+        let myIndex = selectedSports.indexOf(name)
+        let newData = prev.slice()
+        newData.splice(myIndex, 1)
+        return(newData)
+    })
+    }}
+    console.log(selectedSports)
+
+//state change for clicked age group
+const ageGroup: Array<string> = [
+  "children",
+  "youth",
+  "youngAdults",
+  "adults",
+];
+const [clickedAge, setClickedAge] = useState<string[]>([])
 
   function handleAgeClick(age: any) {
-    setSelectedAgeGroup((prev: any) => [...prev, age]);
+    if (clickedAge.includes(age) == false) {
+      return setClickedAge((prev:any)=> [...prev, age])
+    } else if (clickedAge.includes(age)) {
+      setClickedAge((prev:any)=> {
+        let myIndex = clickedAge.indexOf(age)
+        let newData = prev.slice()
+        newData.splice(myIndex, 1)
+        return(newData)
+      })
+    }
   }
 
+  //api call
+  let sportsUrl = `http://localhost:3500/classes?sports=${selectedSports}&ageGroups=${clickedAge}`;
   async function getSelectedSports() {
     const response = await fetch(sportsUrl, {
       method: "GET",
@@ -65,6 +81,8 @@ const Classes = ({ selectedAgeGroup, setSelectedAgeGroup, getToken }: any) => {
       .then((res) => res.json())
       .then(setData);
   }
+
+  //rendering
   return (
     <div>
       <Header />
@@ -78,26 +96,31 @@ const Classes = ({ selectedAgeGroup, setSelectedAgeGroup, getToken }: any) => {
           such as short description, as well as week training schedules!
         </p>
       </div> */}
-      <div className="list-container">
-        <div>Basketball </div>
-        { () => {
-          if (test.length) {
-            return <div>{sportNames}</div>;
-          } else {
-            return null;
-          }}
-        } 
+      <div className="schedule-container" >
+        <div className="age-schedule">
+      <div className="age-section">
         {ageGroup.map((item) => {
           return (
             <div
-              onClick={() => handleAgeClick(item)}
-              className="main-section"
-              key={item}
+            key={item}
+              onClick={()=> handleAgeClick(item)}
+              className={clickedAge.includes(item) ? 'age-active' : 'main-section'}
             >
               {item}
             </div>
           );
         })}
+        </div>
+        <div className="schedule"><p>Schedule</p></div>
+        </div>
+        <div className="sports-section">
+        {sportNames.length && sportNames.map((item:any) => {return (
+        <div 
+        onClick={()=> handleClick(item)}
+        className={selectedSports.includes(item) ? 'sport-active' : 'sport-card'} >{item.sport}
+        </div>)}) }
+        </div>
+        </div>
         <button
           type="submit"
           onClick={getSelectedSports}
@@ -105,7 +128,7 @@ const Classes = ({ selectedAgeGroup, setSelectedAgeGroup, getToken }: any) => {
         >
           Search Sports
         </button>
-      </div>
+      
       
     </div>
   );
